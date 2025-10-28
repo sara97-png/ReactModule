@@ -1,9 +1,38 @@
-import { useState } from "react";
-import "./App.css";
+import { useEffect, useState } from "react";
 import TeamCard from "./components/TeamCard";
 import Scoreboard from "./components/Scoreboard";
+import Quotebox from "./components/Quotebox";
+import "./App.css";
 
 function App() {
+  /*QuoteBox zadatak start*/ 
+  const quotes = [
+   "I’m not lazy, I’m just on energy-saving mode.",
+   "I told my wife she should embrace her mistakes — she gave me a hug.",
+  "I’m on a seafood diet. I see food and I eat it.",
+  "Common sense is like deodorant. The people who need it most never use it.",
+  "I’m not arguing, I’m just explaining why I’m right."
+  ];
+
+  const [currentQuote, setCurrentQuote] = useState("");
+
+  useEffect(() => {
+   generateRandomQuote();    
+  }, []);
+
+  // Handler za novi citat
+  function handleNewQuote() {
+    generateRandomQuote();
+    setStatus(`Novi citat generiran`);
+  }
+
+  function generateRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    setCurrentQuote(quotes[randomIndex]); 
+  }
+
+   /*QuoteBox zadatak end*/ 
+
   // Centralni state: svi timove i status poruka
   const [teams, setTeams] = useState([
     { id: 1, emoji: "🐱", name: "Mačke", score: 0 },
@@ -12,6 +41,11 @@ function App() {
   ]);
 
   const [status, setStatus] = useState("");
+
+  function generateRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    setCurrentQuote(quotes[randomIndex]);
+  }
 
   // Handleri - roditelj ažurira state; djeca samo pozivaju funkcije iz svojih propsa
   function increment(id, label) {
@@ -73,6 +107,8 @@ function App() {
         ))}
       </div>
       <Scoreboard status={status} total={total} leaderLabel={leaderLabel}  onReset={resetAll}/>
+      <hr />
+      <Quotebox quote={currentQuote} status={status} onNewQuote={handleNewQuote} />
     </>
   );
 }
