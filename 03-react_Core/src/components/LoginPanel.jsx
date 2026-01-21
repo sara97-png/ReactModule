@@ -21,6 +21,15 @@ export default function LoginPanel() {
        {/* 2. Kratki zapis s && */}
        {isLoggedIn && <button type="button" onClick={toggleLogin}>Odjava</button>}
        {!isLoggedIn && <button type="button" onClick={toggleLogin}>Prijava</button>}
+
+       
+      <button
+        type="button"
+        style={isLoggedIn ? { background: "red" } : { background: "blue" }}
+        onClick={isLoggedIn ? toggleLogin : toggleLogin}
+      >
+        {isLoggedIn ? "Odjava" : "Prijava"}
+      </button>
     </div>
   );
 }
